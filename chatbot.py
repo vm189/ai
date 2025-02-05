@@ -1,29 +1,24 @@
-# Import "chatbot" from 
-# chatterbot package.
-from chatterbot import ChatBot
-  
-# Inorder to train our bot, we have 
-# to import a trainer package
-# "ChatterBotCorpusTrainer"
-from chatterbot.trainers import ChatterBotCorpusTrainer
- 
-  
-# Give a name to the chatbot “corona bot”
-# and assign a trainer component.
-chatbot=ChatBot('corona bot')
- 
-# Create a new trainer for the chatbot
-trainer = ChatterBotCorpusTrainer(chatbot)
-  
-# Now let us train our bot with multiple corpus
-trainer.train("chatterbot.corpus.english.greetings",
-              "chatterbot.corpus.english.conversations" )
-  
- 
-response = chatbot.get_response('Who are you?')
-print(response)
+import nltk
+from nltk.chat.util import Chat, reflections
 
+# Define pairs of patterns and responses
+pairs = [
+    (r"hi|hello", ["Hello!", "Hi there!"]),
+    (r"how are you?", ["I'm doing well, thank you!", "I'm fine, how about you?"]),
+    (r"what is your name?", ["I'm a chatbot!", "Call me Chatbot."]),
+    (r"who are you?", ["I'm a simple chatbot created to chat with you!"]),
+    (r"bye|quit", ["Goodbye!", "See you later!"])
+]
 
-for i in range(6):
-    response = chatbot.get_response(input("You: "))
-    print(response)
+# Create chatbot
+chatbot = Chat(pairs, reflections)
+
+# Start conversation
+print("Chatbot: Type 'quit' to exit.")
+while True:
+    user_input = input("You: ")
+    if user_input.lower() == "quit":
+        print("Chatbot: Goodbye!")
+        break
+    response = chatbot.respond(user_input)
+    print(f"Chatbot: {response}")
